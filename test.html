@@ -52,14 +52,6 @@
       // Inject the course HTML directly
       //courseContainer.innerHTML = htmlText;
 
-      // Optional: basic deterrence for curious users
-      document.addEventListener("contextmenu", e => e.preventDefault());
-      document.onkeydown = e => {
-        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key))) {
-          //e.preventDefault();
-        }
-      };
-
     } catch (err) {
       console.error(err);
       deny('Unexpected error while loading course.');
