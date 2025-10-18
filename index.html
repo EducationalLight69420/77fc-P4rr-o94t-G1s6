@@ -1,8 +1,83 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Courses</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Login | Parenting Absolute</title>
+<style>
+  body {
+    font-family: 'Book Antiqua', serif;
+    background-color: #faf9f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .login-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+  }
+  input {
+    width: 90%;
+    padding: 0.7rem;
+    margin: 0.5rem 0;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+  }
+  button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+</style>
 </head>
 <body>
-<h1>Our Courses</h1>
+  <div class="login-card">
+    <h2>Login to Continue</h2>
+    <input type="email" id="email" placeholder="Email"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button onclick="login()">Login</button>
+    <p id="msg"></p>
+  </div>
+
+<script>
+async function login() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const msg = document.getElementById('msg');
+
+  msg.textContent = "Authenticating...";
+
+  try {
+    const res = await fetch("https://parentingabsolute.com/_functions/loginMember", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+
+    if (!res.ok) throw new Error("Network error");
+    const data = await res.json();
+
+    if (data.success && data.token) {
+      localStorage.setItem("authToken", data.token);
+      window.location.href = "course.html"; // the loader page
+    } else {
+      msg.textContent = "Invalid login credentials.";
+    }
+  } catch (err) {
+    console.error(err);
+    msg.textContent = "Login failed.";
+  }
+}
+</script>
 </body>
 </html>
