@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Course loader</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    html,body{height:100%;margin:0} 
+    #status{display:flex;align-items:center;justify-content:center;height:100%;font-family:system-ui;}
+    iframe{width:100%;height:100vh;border:0;}
+  </style>
+</head>
+<body>
+  <div id="status">Loading course…</div>
+
+  <!-- JSZip (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.0/dist/jszip.min.js"></script>
+
+  <!-- Loader (hardcoded ZIP URL) -->
+  <script>
+  (async function(){
+    const ZIP_URL = "https://2049108c-faf6-4306-b73f-d7ca4d0cebf3.usrfiles.com/archives/204910_4317c1aec56749a89f8b496ad1997499.zip"; // <-- hardcoded URL (replace)
+    const EXPECTED_INDEX = "Gadget Independence.html"; // file inside the zip you want to load
+
+    function deny(msg){
+      document.getElementById('status').innerText = msg || 'Access denied or failed to load course.';
+    }
+
+    try {
+      // Fetch ZIP
+      const res = await fetch(ZIP_URL);
+      if (!res.ok) return deny('Failed to download course ZIP.');
+
+      const ab = await res.arrayBuffer();
+      const zip = await JSZip.loadAsync(ab);
+
+      // Ensure index file exists
+      const file = zip.file(EXPECTED_INDEX);
+      if (!file) return deny('Course zip missing index.html');
+
+      // Get HTML text
+      const htmlText = await file.async('text');
+
+      // QUICK NOTE: relative asset URLs inside index.html might break when loaded via blob.
+      // The easiest approach is to ensure index.html uses absolute URLs for assets.
+      // If your index.html is self-contained (inline assets) it will work fine.
+
+      // Create blob and iframe
+      const blob = new Blob([htmlText], { type: 'text/html' });
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Replace status with iframe
+      const iframe = document.createElement('iframe');
+      // sandbox can be tightened; allow-same-origin is needed for many scripts to run as expected
+      iframe.sandbox = 'allow-scripts allow-same-origin';
+      iframe.src = blobUrl;
+      document.body.innerHTML = '';
+      document.body.appendChild(iframe);
+
+      // optional: revoke blob when page unloads
+      window.addEventListener('unload', ()=> URL.revokeObjectURL(blobUrl));
+
+    } catch (err) {
+      console.error(err);
+      deny('Unexpected error while loading course.');
+    }
+  })();
+  </script>
+</body>
+</html>
