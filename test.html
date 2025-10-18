@@ -41,24 +41,24 @@
       // Get HTML text
       const htmlText = await file.async('text');
 
-      // QUICK NOTE: relative asset URLs inside index.html might break when loaded via blob.
-      // The easiest approach is to ensure index.html uses absolute URLs for assets.
-      // If your index.html is self-contained (inline assets) it will work fine.
+      // Clear the current document
+      document.body.innerHTML = "";
 
-      // Create blob and iframe
-      const blob = new Blob([htmlText], { type: 'text/html' });
-      const blobUrl = URL.createObjectURL(blob);
+      // Create a container for the Twine course
+      const courseContainer = document.createElement('div');
+      courseContainer.id = "course-container";
+      document.body.appendChild(courseContainer);
 
-      // Replace status with iframe
-      const iframe = document.createElement('iframe');
-      // sandbox can be tightened; allow-same-origin is needed for many scripts to run as expected
-      iframe.sandbox = 'allow-scripts allow-same-origin';
-      iframe.src = blobUrl;
-      document.body.innerHTML = '';
-      document.body.appendChild(iframe);
+      // Inject the course HTML directly
+      courseContainer.innerHTML = htmlText;
 
-      // optional: revoke blob when page unloads
-      window.addEventListener('unload', ()=> URL.revokeObjectURL(blobUrl));
+      // Optional: basic deterrence for curious users
+      document.addEventListener("contextmenu", e => e.preventDefault());
+      document.onkeydown = e => {
+        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key))) {
+          e.preventDefault();
+        }
+      };
 
     } catch (err) {
       console.error(err);
