@@ -18,8 +18,23 @@
 
   <!-- Loader (hardcoded ZIP URL) -->
   <script>
+  async function fetchCourseZipUrl() {
+    try {
+      const response = await fetch("https://parentingabsolute.com/_functions/courseList");
+      if (!response.ok) throw new Error("Failed to fetch course URL");
+      const data = await response.json();
+      return data.body; // This is the URL to your ZIP
+    } catch (err) {
+      console.error("Error fetching course URL:", err);
+      alert("Could not load course.");
+    }
+  }
+
   (async function(){
-    const ZIP_URL = "https://2049108c-faf6-4306-b73f-d7ca4d0cebf3.usrfiles.com/archives/204910_4317c1aec56749a89f8b496ad1997499.zip"; // <-- hardcoded URL (replace)
+    const ZIP_URL = await fetchCourseZipUrl();
+    if (!zipUrl) return;
+
+    //const ZIP_URL = "https://2049108c-faf6-4306-b73f-d7ca4d0cebf3.usrfiles.com/archives/204910_4317c1aec56749a89f8b496ad1997499.zip"; // <-- hardcoded URL (replace)
     const EXPECTED_INDEX = "Gadget Independence.html"; // file inside the zip you want to load
 
     function deny(msg){
