@@ -52,7 +52,7 @@
       // Replace status with iframe
       const iframe = document.createElement('iframe');
       // sandbox can be tightened; allow-same-origin is needed for many scripts to run as expected
-      iframe.sandbox = 'allow-scripts allow-same-origin';
+      iframe.sandbox = 'allow-scripts allow-same-origin allow-popups allow-top-navigation';
       iframe.src = blobUrl;
       document.body.innerHTML = '';
       document.body.appendChild(iframe);
