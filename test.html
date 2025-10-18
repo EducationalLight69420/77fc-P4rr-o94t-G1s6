@@ -42,15 +42,15 @@
       const htmlText = await file.async('text');
 
       // Clear the current document
-      document.body.innerHTML = "";
+      document.body.innerHTML = htmlText;
 
       // Create a container for the Twine course
-      const courseContainer = document.createElement('div');
+      /*const courseContainer = document.createElement('div');
       courseContainer.id = "course-container";
-      document.body.appendChild(courseContainer);
+      document.body.appendChild(courseContainer);*/
 
       // Inject the course HTML directly
-      courseContainer.innerHTML = htmlText;
+      //courseContainer.innerHTML = htmlText;
 
       // Optional: basic deterrence for curious users
       document.addEventListener("contextmenu", e => e.preventDefault());
