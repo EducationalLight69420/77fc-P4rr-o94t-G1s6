@@ -32,7 +32,7 @@
 
   (async function(){
     const ZIP_URL = await fetchCourseZipUrl();
-    if (!zipUrl) return;
+    if (!ZIP_URL) return;
 
     //const ZIP_URL = "https://2049108c-faf6-4306-b73f-d7ca4d0cebf3.usrfiles.com/archives/204910_4317c1aec56749a89f8b496ad1997499.zip"; // <-- hardcoded URL (replace)
     const EXPECTED_INDEX = "Gadget Independence.html"; // file inside the zip you want to load
