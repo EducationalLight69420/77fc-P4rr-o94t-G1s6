@@ -57,14 +57,17 @@
       document.body.innerHTML = '';
       document.body.appendChild(iframe);
 
-      // optional: revoke blob when page unloads
-      window.addEventListener('unload', ()=> URL.revokeObjectURL(blobUrl));
-
-      // Optional: basic deterrence for curious users
-      document.addEventListener("contextmenu", e => e.preventDefault());
-      document.onkeydown = e => {
-        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key))) {
-          e.preventDefault();
+      // Block right-click inside the iframe
+      iframe.onload = () => {
+        try {
+          const idoc = iframe.contentDocument || iframe.contentWindow.document;
+          idoc.addEventListener("contextmenu", e => e.preventDefault());
+          idoc.addEventListener("keydown", e => {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key)))
+              e.preventDefault();
+          });
+        } catch (err) {
+          console.warn("Could not inject right-click blocker:", err);
         }
       };
 
