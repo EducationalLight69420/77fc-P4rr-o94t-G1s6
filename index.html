@@ -60,7 +60,11 @@ async function login() {
   try {
     const res = await fetch("https://parentingabsolute.com/_functions/auth_login", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      mode: "cors", // ✅ explicitly tell browser this is a cross-origin request
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json" // ✅ helps Wix respond with correct MIME type
+      },
       body: JSON.stringify({ email, password })
     });
 
