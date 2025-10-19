@@ -58,7 +58,7 @@ async function login() {
   msg.textContent = "Authenticating...";
 
   try {
-    const res = await fetch("https://parentingabsolute.com/_functions/loginMember", {
+    const res = await fetch("https://parentingabsolute.com/_functions/auth_login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
