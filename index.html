@@ -60,27 +60,30 @@ async function login() {
   try {
     const res = await fetch("https://parentingabsolute.com/_functions/auth_login", {
       method: "POST",
-      mode: "cors", // ✅ explicitly tell browser this is a cross-origin request
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json" // ✅ helps Wix respond with correct MIME type
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
     });
-
-    if (!res.ok) throw new Error("Network error");
+  
     const data = await res.json();
-
+  
+    if (res.status === 401) {
+      msg.textContent = "Invalid email or password.";
+      return;
+    }
+  
+    if (!res.ok) {
+      msg.textContent = "Server error. Please try again later.";
+      return;
+    }
+  
     if (data.success && data.token) {
       localStorage.setItem("authToken", data.token);
-      window.location.href = "course.html"; // the loader page
-    } else {
-      msg.textContent = "Invalid login credentials.";
+      window.location.href = "course.html";
     }
-  } catch (err) {
-    console.error(err);
-    msg.textContent = "Login failed.";
-  }
+
+} catch (err) {
+  msg.textContent = "Network issue. Please check your connection.";
+}
 }
 </script>
 </body>
