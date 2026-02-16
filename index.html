@@ -15,11 +15,11 @@
     const params = new URLSearchParams(window.location.search);
     const theme = eval(params.get('dark'));
 
-    const bg     = theme ? '#222222' : '#ffffff';
+    //const bg     = theme ? '#222222' : '#ffffff';
     const stroke = theme ? '#a8c4e0' : '#1B3A5C';
     const arrow  = theme ? '#f0b840' : '#C8860A';
 
-    document.body.style.background = bg;
+    //document.body.style.background = bg;
     
     const canvas = document.getElementById("setMap");
     const ctx = canvas.getContext("2d");
