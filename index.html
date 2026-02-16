@@ -18,6 +18,9 @@
     const bg     = theme === 'dark' ? '#1a1a1a' : '#ffffff';
     const stroke = theme === 'dark' ? '#a8c4e0' : '#1B3A5C';
     const arrow  = theme === 'dark' ? '#f0b840' : '#C8860A';
+
+    document.body.style.background = bg;
+    
     const canvas = document.getElementById("setMap");
     const ctx = canvas.getContext("2d");
 
