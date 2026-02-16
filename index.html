@@ -1,97 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Course Login | Parenting Absolute</title>
-<style>
-  body {
-    font-family: 'Book Antiqua', serif;
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  .login-card {
-    color: #FEBE00;
-    background: #FFFFFF05;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-  }
-  input {
-    width: 90%;
-    padding: 0.7rem;
-    margin: 0.5rem 0;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-  }
-  button {
-    background-color: #FEBE00;
-    color: black;
-    border: 1px solid #FEBE00;
-    padding: 0.7rem 1.5rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-  }
-  button: hover {
-    background-color: black;
-    color: white;
-    border: 1px solid #F3F2DC;
-  }
-</style>
+  <style>
+    body {
+      background: white;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
 </head>
 <body>
-  <div class="login-card">
-    <h2>Welcome</h2>
-    <h4>Enter your email ID & password to access your courses</h4>
-    <input type="email" id="email" placeholder="Email"><br>
-    <input type="password" id="password" placeholder="Password"><br>
-    <button onclick="login()">Login</button>
-    <p id="msg"></p>
-  </div>
+  <canvas id="setMap" width="500" height="250"></canvas>
+  <script>
+    const canvas = document.getElementById("setMap");
+    const ctx = canvas.getContext("2d");
 
-<script>
-async function login() {
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
-  const msg = document.getElementById('msg');
+    // Set A
+    ctx.beginPath();
+    ctx.ellipse(120, 125, 70, 110, 0, 0, 2 * Math.PI);
+    ctx.strokeStyle = "#1B3A5C";
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
-  msg.textContent = "Authenticating...";
+    // Set B
+    ctx.beginPath();
+    ctx.ellipse(380, 125, 70, 110, 0, 0, 2 * Math.PI);
+    ctx.strokeStyle = "#1B3A5C";
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
-  try {
-    const res = await fetch("https://parentingabsolute.com/_functions/auth_login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
+    // Label A
+    ctx.fillStyle = "#1B3A5C";
+    ctx.font = "bold italic 18px Georgia";
+    ctx.fillText("A", 112, 45);
+
+    // Label B
+    ctx.fillText("B", 372, 45);
+
+    // Dots in A
+    [80, 125, 170].forEach(y => {
+      ctx.beginPath();
+      ctx.arc(120, y, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = "#1B3A5C";
+      ctx.fill();
     });
-  
-    const data = await res.json();
-  
-    if (res.status === 401) {
-      msg.textContent = "Invalid email or password.";
-      return;
-    }
-  
-    if (!res.ok) {
-      msg.textContent = "Server error. Please try again later.";
-      return;
-    }
-  
-    if (data.success && data.token) {
-      localStorage.setItem("authToken", data.token);
-      window.location.href = "course.html";
-    }
 
-} catch (err) {
-  msg.textContent = "Network issue. Please check your connection.";
-}
-}
-</script>
+    // Dots in B
+    [80, 125, 170].forEach(y => {
+      ctx.beginPath();
+      ctx.arc(380, y, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = "#1B3A5C";
+      ctx.fill();
+    });
+
+    // Arrows from A to B
+    [[80, 80], [125, 125], [170, 170]].forEach(([ay, by]) => {
+      const angle = Math.atan2(by - ay, 375 - 125);
+
+      ctx.beginPath();
+      ctx.moveTo(128, ay);
+      ctx.lineTo(370, by);
+      ctx.strokeStyle = "#C8860A";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Arrowhead
+      ctx.beginPath();
+      ctx.moveTo(372, by);
+      ctx.lineTo(372 - 10 * Math.cos(angle - 0.3), by - 10 * Math.sin(angle - 0.3));
+      ctx.lineTo(372 - 10 * Math.cos(angle + 0.3), by - 10 * Math.sin(angle + 0.3));
+      ctx.closePath();
+      ctx.fillStyle = "#C8860A";
+      ctx.fill();
+    });
+
+    // f label
+    ctx.fillStyle = "#C8860A";
+    ctx.font = "italic 16px Georgia";
+    ctx.fillText("f", 245, 115);
+  </script>
 </body>
 </html>
