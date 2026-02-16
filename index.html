@@ -12,25 +12,31 @@
 <body>
   <canvas id="setMap" width="500" height="250"></canvas>
   <script>
+    const params = new URLSearchParams(window.location.search);
+    const theme = params.get('theme') || 'light';
+
+    const bg     = theme === 'dark' ? '#1a1a1a' : '#ffffff';
+    const stroke = theme === 'dark' ? '#a8c4e0' : '#1B3A5C';
+    const arrow  = theme === 'dark' ? '#f0b840' : '#C8860A';
     const canvas = document.getElementById("setMap");
     const ctx = canvas.getContext("2d");
 
     // Set A
     ctx.beginPath();
     ctx.ellipse(120, 125, 70, 110, 0, 0, 2 * Math.PI);
-    ctx.strokeStyle = "#1B3A5C";
+    ctx.strokeStyle = stroke;
     ctx.lineWidth = 2;
     ctx.stroke();
 
     // Set B
     ctx.beginPath();
     ctx.ellipse(380, 125, 70, 110, 0, 0, 2 * Math.PI);
-    ctx.strokeStyle = "#1B3A5C";
+    ctx.strokeStyle = stroke;
     ctx.lineWidth = 2;
     ctx.stroke();
 
     // Label A
-    ctx.fillStyle = "#1B3A5C";
+    ctx.fillStyle = stroke;
     ctx.font = "bold italic 18px Georgia";
     ctx.fillText("A", 112, 45);
 
@@ -41,7 +47,7 @@
     [80, 125, 170].forEach(y => {
       ctx.beginPath();
       ctx.arc(120, y, 5, 0, 2 * Math.PI);
-      ctx.fillStyle = "#1B3A5C";
+      ctx.fillStyle = stroke;
       ctx.fill();
     });
 
@@ -49,7 +55,7 @@
     [80, 125, 170].forEach(y => {
       ctx.beginPath();
       ctx.arc(380, y, 5, 0, 2 * Math.PI);
-      ctx.fillStyle = "#1B3A5C";
+      ctx.fillStyle = stroke;
       ctx.fill();
     });
 
@@ -60,7 +66,7 @@
       ctx.beginPath();
       ctx.moveTo(128, ay);
       ctx.lineTo(370, by);
-      ctx.strokeStyle = "#C8860A";
+      ctx.strokeStyle = arrow;
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
@@ -70,12 +76,12 @@
       ctx.lineTo(372 - 10 * Math.cos(angle - 0.3), by - 10 * Math.sin(angle - 0.3));
       ctx.lineTo(372 - 10 * Math.cos(angle + 0.3), by - 10 * Math.sin(angle + 0.3));
       ctx.closePath();
-      ctx.fillStyle = "#C8860A";
+      ctx.fillStyle = arrow;
       ctx.fill();
     });
 
     // f label
-    ctx.fillStyle = "#C8860A";
+    ctx.fillStyle = arrow;
     ctx.font = "italic 16px Georgia";
     ctx.fillText("f", 245, 115);
   </script>
