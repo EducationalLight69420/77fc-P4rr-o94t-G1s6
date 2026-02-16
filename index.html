@@ -13,11 +13,11 @@
   <canvas id="setMap" width="500" height="250"></canvas>
   <script>
     const params = new URLSearchParams(window.location.search);
-    const theme = params.get('theme') || 'light';
+    const theme = params.get('dark');
 
-    const bg     = theme === 'dark' ? '#1a1a1a' : '#ffffff';
-    const stroke = theme === 'dark' ? '#a8c4e0' : '#1B3A5C';
-    const arrow  = theme === 'dark' ? '#f0b840' : '#C8860A';
+    const bg     = theme ? '#1a1a1a' : '#ffffff';
+    const stroke = theme ? '#a8c4e0' : '#1B3A5C';
+    const arrow  = theme ? '#f0b840' : '#C8860A';
 
     document.body.style.background = bg;
     
