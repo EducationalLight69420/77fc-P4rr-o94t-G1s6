@@ -13,7 +13,7 @@
   <canvas id="setMap" width="500" height="250"></canvas>
   <script>
     const params = new URLSearchParams(window.location.search);
-    const theme = params.get('dark');
+    const theme = eval(params.get('dark'));
 
     const bg     = theme ? '#1a1a1a' : '#ffffff';
     const stroke = theme ? '#a8c4e0' : '#1B3A5C';
