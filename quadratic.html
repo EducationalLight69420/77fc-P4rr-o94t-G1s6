@@ -71,14 +71,7 @@
     // line function label;
     ctx.fillStyle = arrow;
     ctx.font = "bold italic 18px Georgia";
-    const slope = 0.8;
-    const angle = Math.atan(slope);
-    
-    ctx.save(); 
-    ctx.translate(15, -(0.8 * 15 + 15)); // Move to a point on the line
-    ctx.rotate(-angle);                  // Rotate to match slope
-    ctx.fillText("f(x) = 0.8x + 15", 0, -10); // Draw slightly above the line
-    ctx.restore();
+    ctx.fillText("f(x) = x^2", 10, height/2 - 15); // Draw slightly above the line
   </script>
 </body>
 </html>
