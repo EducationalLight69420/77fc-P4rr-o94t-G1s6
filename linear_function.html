@@ -67,6 +67,18 @@
     // label Y
     ctx.fillText("Y", 15, (-height / 2) + 15);
     ctx.fillText("Y'", 15, (height / 2) - 15);
+
+    // line function label;
+    ctx.fillStyle = arrow;
+    ctx.font = "bold italic 18px Georgia";
+    const slope = 0.8;
+    const angle = Math.atan(slope);
+    
+    ctx.save(); 
+    ctx.translate(50, -(0.8 * 50 + 15)); // Move to a point on the line
+    ctx.rotate(-angle);                  // Rotate to match slope
+    ctx.fillText("f(x) = 0.8x + 15", 0, -10); // Draw slightly above the line
+    ctx.restore();
   </script>
 </body>
 </html>
