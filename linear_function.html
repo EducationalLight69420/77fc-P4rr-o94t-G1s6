@@ -44,6 +44,19 @@
     ctx.lineWidth = 2;
     ctx.stroke();
 
+    ctx.beginPath();
+    ctx.strokeStyle = arrow;
+    
+    for(let x = -width/2; x <= width/2; x++) {
+      let y = 2*x+3;
+      
+      if(x === -width/2) {
+        ctx.moveTo(x,-y);
+      } else {
+        ctx.lineTo(x,-y);
+      }
+    }
+
     // Label X
     ctx.fillStyle = stroke;
     ctx.font = "bold italic 18px Georgia";
