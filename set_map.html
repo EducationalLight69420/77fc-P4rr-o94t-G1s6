@@ -1,0 +1,93 @@
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="setMap" width="500" height="250"></canvas>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const theme = eval(params.get('dark'));
+
+    //const bg     = theme ? '#222222' : '#ffffff';
+    const stroke = theme ? '#a8c4e0' : '#1B3A5C';
+    const arrow  = theme ? '#f0b840' : '#C8860A';
+
+    //document.body.style.background = bg;
+    
+    const canvas = document.getElementById("setMap");
+    const ctx = canvas.getContext("2d");
+
+    // Set A
+    ctx.beginPath();
+    ctx.ellipse(120, 125, 70, 110, 0, 0, 2 * Math.PI);
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Set B
+    ctx.beginPath();
+    ctx.ellipse(380, 125, 70, 110, 0, 0, 2 * Math.PI);
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Label A
+    ctx.fillStyle = stroke;
+    ctx.font = "bold italic 18px Georgia";
+    ctx.fillText("A", 112, 45);
+
+    // Label B
+    ctx.fillText("B", 372, 45);
+
+    // Dots in A
+    [80, 125, 170].forEach(y => {
+      ctx.beginPath();
+      ctx.arc(120, y, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = stroke;
+      ctx.fill();
+    });
+
+    // Dots in B
+    [80, 125, 170].forEach(y => {
+      ctx.beginPath();
+      ctx.arc(380, y, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = stroke;
+      ctx.fill();
+    });
+
+    // Arrows from A to B
+    [[80, 80], [125, 125], [170, 170]].forEach(([ay, by]) => {
+      const angle = Math.atan2(by - ay, 375 - 125);
+
+      ctx.beginPath();
+      ctx.moveTo(128, ay);
+      ctx.lineTo(370, by);
+      ctx.strokeStyle = arrow;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Arrowhead
+      ctx.beginPath();
+      ctx.moveTo(372, by);
+      ctx.lineTo(372 - 10 * Math.cos(angle - 0.3), by - 10 * Math.sin(angle - 0.3));
+      ctx.lineTo(372 - 10 * Math.cos(angle + 0.3), by - 10 * Math.sin(angle + 0.3));
+      ctx.closePath();
+      ctx.fillStyle = arrow;
+      ctx.fill();
+    });
+
+    // f label
+    ctx.fillStyle = arrow;
+    ctx.font = "italic 16px Georgia";
+    ctx.fillText("f", 245, 115);
+  </script>
+</body>
+</html>
