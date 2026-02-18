@@ -1,0 +1,90 @@
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="setMap" width="500" height="250"></canvas>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const theme = eval(params.get('dark'));
+
+    //const bg     = theme ? '#222222' : '#ffffff';
+    const stroke = theme ? '#a8c4e0' : '#1B3A5C';
+    const arrow  = theme ? '#f0b840' : '#C8860A';
+
+    //document.body.style.background = bg;
+    
+    const canvas = document.getElementById("setMap");
+    const ctx = canvas.getContext("2d");
+    const width = 500;
+    const height = 250;
+    ctx.translate(width/2, height/2);
+
+    // X-Axis
+    ctx.beginPath();
+    ctx.moveTo(-width/2, 0);
+    ctx.lineTo(width/2, 0);
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Y-Axis
+    ctx.beginPath();
+    ctx.moveTo(0, height/2);
+    ctx.lineTo(0, -height/2);
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = arrow;
+    
+    for(let x = -width/2; x <= width/2; x++) {
+      let y = x*x;
+      
+      if(x === -width/2) {
+        ctx.moveTo(x,-y);
+      } else {
+        ctx.lineTo(x,-y);
+      }
+    }
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = arrow;
+
+    for(let x = -width/2; x <= width/2; x++) {
+      let y = x*x*x;
+      if(x === -width/2) {
+        ctx.moveTo(x,-y);
+      } else {
+        ctx.lineTo(x,-y);
+      }
+    }
+    ctx.stroke();
+
+    // Label X
+    ctx.fillStyle = stroke;
+    ctx.font = "bold italic 18px Georgia";
+    ctx.fillText("X", (width / 2) - 15, 15);
+    ctx.fillText("X'", (-width / 2) + 15, 15);
+
+    // label Y
+    ctx.fillText("Y", 15, (-height / 2) + 15);
+    ctx.fillText("Y'", 15, (height / 2) - 15);
+
+    // line function label;
+    ctx.fillStyle = arrow;
+    ctx.font = "bold italic 18px Georgia";
+    ctx.fillText("f(x) = x^2", width/2 - 85, height/2 - 15); // Draw slightly above the line
+  </script>
+</body>
+</html>
