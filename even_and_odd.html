@@ -53,8 +53,10 @@
 
     ctx.beginPath();
     ctx.strokeStyle = arrow;
-    
-    for(let x = -width/2; x <= width/2; x++) {
+
+    ctx.save(); // Save center state
+    ctx.translate(-width/4, height/2);
+    for(let x = -width/2; x <= 0; x++) {
       let y = x*x;
       
       if(x === -width/2) {
@@ -64,6 +66,7 @@
       }
     }
     ctx.stroke();
+    ctx.restore();
 
     ctx.beginPath();
     ctx.strokeStyle = arrow;
