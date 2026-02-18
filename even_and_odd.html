@@ -71,6 +71,8 @@
     ctx.beginPath();
     ctx.strokeStyle = arrow;
 
+    ctx.save(); // Save center state
+    ctx.translate(width/4, 0);
     for(let x = -width/2; x <= width/2; x++) {
       let y = x*x*x;
       if(x === -width/2) {
@@ -80,6 +82,7 @@
       }
     }
     ctx.stroke();
+    ctx.restore();
 
     // Label X
     ctx.fillStyle = stroke;
