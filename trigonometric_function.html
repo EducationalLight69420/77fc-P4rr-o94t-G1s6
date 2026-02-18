@@ -31,8 +31,9 @@
     ctx.translate(width/2, height/2);
 
     ctx.beginPath();
-    ctx.strokeStyle = arrow;
+    ctx.strokeStyle = stroke;
     ctx.arc(0, 0, radius, 0, Math.PI * 2);
+    ctx.stroke();
     
     let x = Math.cos(angle) * radius;
     let y = Math.sin(angle) * radius;
